@@ -1,6 +1,5 @@
 package blockchain.api.health.indicator.fabric;
 
-import blockchain.api.health.indicator.AbstractHealthCheck;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
@@ -15,18 +14,18 @@ import org.apache.commons.io.IOUtils;
  */
 @Slf4j
 @Getter
-public class FabricZookeeperHealthCheck extends AbstractHealthCheck {
+public class FabricZookeeperHealthCheck extends FabricHealthCheck {
 
-    private static final String COMMAND = "srvr \n";
+    private static final String COMMAND = "srvr";
     private static final String DEFAULT_ADDRESS = "localhost";
     private static final Integer DEFAULT_PORT = 2181;
-    private static final Integer DEFAULT_SOCKET_TIMEOUT = 3000;
+    private static final Integer DEFAULT_SOCKET_TIMEOUT = 5000;
     private static final String DEFAULT_MODE = null;
 
     private String address;
     private int port;
     private boolean secure; // TODO : add ssl
-    // after checking health, one of {"null", "standalone", "leader", "follower" } mode is updated
+    // after checking health, one of {"null", "standalone", "leader", "follower", "unknown"} mode is updated
     private String mode;
 
     public static FabricZookeeperHealthCheck of(String name) {
@@ -125,7 +124,7 @@ public class FabricZookeeperHealthCheck extends AbstractHealthCheck {
         }
 
         int startIdx = modeIdx + prefix.length();
-        int lastIdx = result.length() - 1;
+        int lastIdx = result.length();
 
         for (int i = modeIdx; i < result.length(); i++) {
             if (result.charAt(i) == '\n') {
@@ -134,6 +133,6 @@ public class FabricZookeeperHealthCheck extends AbstractHealthCheck {
             }
         }
 
-        return result.substring(startIdx, lastIdx);
+        return result.substring(startIdx, lastIdx).trim();
     }
 }

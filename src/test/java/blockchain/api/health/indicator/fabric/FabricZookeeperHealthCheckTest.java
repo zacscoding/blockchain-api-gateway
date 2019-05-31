@@ -2,6 +2,7 @@ package blockchain.api.health.indicator.fabric;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import blockchain.api.common.FabricZookeeperMockServer;
 import blockchain.api.common.StubSocketServer;
 import com.codahale.metrics.health.HealthCheck.Result;
 import java.util.Optional;
@@ -29,9 +30,7 @@ public class FabricZookeeperHealthCheckTest {
     @Test
     public void testCheckAndThenReturnSuccess() throws Exception {
         // given
-        StubSocketServer server = new StubSocketServer(
-            Optional.of(input -> "Mode: leader")
-        );
+        FabricZookeeperMockServer server = new FabricZookeeperMockServer("Mode: leader");
         server.start();
         healthCheck = FabricZookeeperHealthCheck.of(
             "zookeeper1", "127.0.0.1", server.getPort()

@@ -1,4 +1,6 @@
 # Blockchain API gateway  
+;demo project for blockchain api gateway  
+
 
 ## TODO  
 
@@ -9,7 +11,7 @@
     - [ ] btc node
   - Fabric
     - [ ] CA server, Zookeeper, Kakfa, Orderer, Peer
-  - Groupping
+  - Grouping
     - [ ] eth, btc : group by network
     - [ ] fabric : group by network + channel
 
